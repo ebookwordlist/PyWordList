@@ -21,7 +21,7 @@ pip install -r requirements.txt
 ```
 python3 main --importPath="your_epub_book_path.epub" --exportPath="your_excel_path.xlsx" --level=3000
 ```
-your can use 
+you can use 
 
 ```
 python3 main -h
