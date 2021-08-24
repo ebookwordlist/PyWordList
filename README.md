@@ -1,6 +1,9 @@
 `PywordList` can help you export english word list from a `epub` book.
 you can check [exported xlsx](https://github.com/ebookwordlist/PyWordList/blob/master/resource/pg1342.xlsx) to get the point
 
+### Download app
+For macos user
+you can download app directly [release](https://github.com/ebookwordlist/PyWordList/releases)
 ### Download script 
 ```
 git clone https://github.com/ebookwordlist/PyWordList.git 
