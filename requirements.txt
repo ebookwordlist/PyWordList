@@ -1,0 +1,7 @@
+EbookLib
+beautifulsoup4
+nltk
+XlsxWriter
+macdict
+py2app
+setuptools
