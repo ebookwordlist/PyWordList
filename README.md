@@ -1,17 +1,44 @@
-### install from source 
-git clone  
+###   
 
+
+
+### Use python script 
+```
+git clone https://github.com/ebookwordlist/PyWordList.git 
+cd PyWordList
 python3 -m venv venv/ 
-
 source venv/bin/activate 
 
-if you are in chinese mainland
+### if you are in chinese mainland:
 pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com
 
+### else:
+pip install -r requirements.txt
+
+```
 
 
-https://stackoverflow.com/questions/24764549/upgrade-python-packages-from-requirements-txt-using-pip-command
+### Use commandline 
+```
+python3 main --importPath="your_epub_book_path.epub" --exportPath="your_excel_path.xlsx" --level=3000
+```
+your can use 
 
-pip install --upgrade --force-reinstall -r requirements.txt You can also ignore installed package and install the new one :
+```
+python3 main -h
+```
+to check the arguments detail
 
-pip install --ignore-installed -r requirements.tx
+### Use GUI:
+```
+python3 gui.py
+```
+![](img/app_ui.png)
+
+### Build MacOS app 
+Via [py2app](https://py2app.readthedocs.io/en/latest/) we can build a `PyWorldList` app on MacOS systerm 
+
+```
+python setup.py py2app
+```
+later you will see a `gui.app` in `dist/` folder
