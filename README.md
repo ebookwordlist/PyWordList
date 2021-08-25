@@ -5,7 +5,7 @@ you can check [exported xlsx](https://github.com/ebookwordlist/PyWordList/blob/m
 - 单词按照书中的章节分组
 - 按照用户的词汇量过滤单词
 - 单词可按照书中出现顺序，或者词频进行排序(方便预习和复习)
-- app只支持macOS ,脚本是纯python写的，可在macOS/Linux 上运行(windows 上改一下路径获取方式应该也是可以的)
+- app只支持macOS ,脚本是纯python写的
 - 导出文件为excel文件
 
 欢迎大家使用
