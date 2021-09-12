@@ -7,11 +7,13 @@ from nltk import FreqDist
 from nltk.corpus import brown
 from functools import reduce
 import string
-import xlsxwriter
-from macdict import lookup_word
 from os import path
-# nltk.set_proxy('http://127.0.0.1:8001')
-# nltk.download("brown")
+from nltk.stem import WordNetLemmatizer
+
+# nltk.set_proxy('http://127.0.0.1:1087')
+# nltk.download('wordnet')
+
+lemmatizer = WordNetLemmatizer()
 
 frequency_list = FreqDist(i.lower() for i in brown.words())
 
@@ -25,42 +27,39 @@ def process_chapter(sentences,my_words_dict):
     wordlist = reduce(lambda x, y: x + y, [nltk.word_tokenize(s) for s in sentences])
     stop_words = set(stopwords.words("english") + split(string.punctuation) + ["“", "”"])
     filtered_list = [word for word in wordlist if word.casefold() not in stop_words]
+    filtered_list = [lemmatizer.lemmatize(word) for word in filtered_list]
     filtered_list = remove_duplicate_keep_order(filtered_list)
     filtered_list = [word for word in filtered_list if word.casefold() not in my_words_dict]
     filtered_list = [word for word in filtered_list if word.casefold() in frequency_list]
     return filtered_list
 
 
-def export_ebook_wordlist(book_path,export_path,my_word_count):
+def export_csv(book_path,export_path,my_word_count):
     book = epub.read_epub(book_path)
     chapters = [doc.get_body_content() for doc in book.get_items_of_type(ebooklib.ITEM_DOCUMENT)]
     soups = [BeautifulSoup(chapter, 'html.parser') for chapter in chapters]
-    freq_dict = dict(frequency_list.most_common())
     my_words_dict = dict(frequency_list.most_common()[:my_word_count])
 
-    workbook = xlsxwriter.Workbook(export_path)
+    # soups = soups[0:2]
 
+    f = open(export_path, "a")
     for index, soup in enumerate(soups):
         sentences = [x.getText() for x in soup.findAll('p')]
         if len(sentences) == 0:
             continue
-
         word_list = process_chapter(sentences,my_words_dict)
-        sheet_name = "chapter{}".format(index)
-        worksheet = workbook.add_worksheet(sheet_name)
-        worksheet.write(0, 0, "单词")
-        worksheet.write(0, 1, "文中顺序")
-        worksheet.write(0, 2, "词频")
-        worksheet.write(0, 3, "解释")
+        print(word_list)
+        chapter_name  = "#p&p{}".format(index)
+        f.write(chapter_name)
+        f.write("\n")
+        for w in word_list:
+            print(w)
+            f.write(w)
+            f.write("\n")
+        f.write("\n")
 
-        for i,word in enumerate(word_list):
-            definition = lookup_word(word)
-            worksheet.write(i+1, 0, word)
-            worksheet.write(i+1, 1, i)
-            worksheet.write(i+1, 2, freq_dict.get(word, 0))
-            worksheet.write(i+1, 3, definition)
 
-    workbook.close()
+    f.close()
 
 def get_default_export_path():
     export_path = path.join(path.expanduser("~"), 'Desktop/english_world_list.xlsx')
@@ -78,5 +77,5 @@ if __name__ == "__main__":
     print(args.importPath)
     print(args.exportPath)
     print(args.level)
-    export_ebook_wordlist(book_path=args.importPath,export_path=args.exportPath,my_word_count=args.level)
+    export_csv(book_path=args.importPath,export_path=args.exportPath,my_word_count=args.level)
 

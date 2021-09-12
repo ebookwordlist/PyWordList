@@ -5,3 +5,4 @@ XlsxWriter
 macdict
 py2app
 setuptools
+pytest
